@@ -1,0 +1,60 @@
+CHIP RoundToPow {
+    IN in[16];  
+    OUT out[16]; 
+
+    PARTS:
+    // trazimo najvisi bit postavljen na ''1'' na inputu
+	// odnosno postavljamo sve bitove ispod ''najviseg'' na 1 kako bi kasnije znali koji je to bit
+	// bit#### samo oznacava koje bitove usporedujemo, eg. bit1415 = bit14 i bit15, ali radi preglednosti sam skratio
+    Or(a=in[15], b=in[14], out=bit1415);
+    Or(a=bit1415, b=in[13], out=bit1315);
+    Or(a=bit1315, b=in[12], out=bit1215);
+    Or(a=bit1215, b=in[11], out=bit1115);
+    Or(a=bit1115, b=in[10], out=bit1015);
+    Or(a=bit1015, b=in[9], out=bit915);
+    Or(a=bit915, b=in[8], out=bit815);
+    Or(a=bit815, b=in[7], out=bit715);
+    Or(a=bit715, b=in[6], out=bit615);
+    Or(a=bit615, b=in[5], out=bit515);
+    Or(a=bit515, b=in[4], out=bit415);
+    Or(a=bit415, b=in[3], out=bit315);
+    Or(a=bit315, b=in[2], out=bit215);
+    Or(a=bit215, b=in[1], out=bit115);
+    Or(a=bit115, b=in[0], out=bit015);
+	
+	// koristimo Not i And kako bi obrisali sve bitove ispod najviseg bita, samo on ostaje postavljen na ''1''
+	// tada finalni out sadrzava najvisu potenciju broja 2 koja je manja ili jednaka inputu 
+	
+	Not(in = in[15], out = Nin15);
+	Not(in = bit1415, out = Nbit1415);
+	Not(in = bit1315, out = Nbit1315);
+	Not(in = bit1215, out = Nbit1215);
+	Not(in = bit1115, out = Nbit1115);
+	Not(in = bit1015, out = Nbit1015);
+	Not(in = bit915, out = Nbit915);
+	Not(in = bit815, out = Nbit815);
+	Not(in = bit715, out = Nbit715);
+	Not(in = bit615, out = Nbit615);
+	Not(in = bit515, out = Nbit515);
+	Not(in = bit415, out = Nbit415);
+	Not(in = bit315, out = Nbit315);
+	Not(in = bit215, out = Nbit215);
+	Not(in = bit115, out = Nbit115);
+	
+    And(a=in[15], b=true, out=out[15]);
+    And(a=bit1415, b=Nin15, out=out[14]);
+    And(a=bit1315, b=Nbit1415, out=out[13]);
+    And(a=bit1215, b=Nbit1315, out=out[12]);
+    And(a=bit1115, b=Nbit1215, out=out[11]);
+    And(a=bit1015, b=Nbit1115, out=out[10]);
+    And(a=bit915, b=Nbit1015, out=out[9]);
+    And(a=bit815, b=Nbit915, out=out[8]);
+    And(a=bit715, b=Nbit815, out=out[7]);
+    And(a=bit615, b=Nbit715, out=out[6]);
+    And(a=bit515, b=Nbit615, out=out[5]);
+    And(a=bit415, b=Nbit515, out=out[4]);
+    And(a=bit315, b=Nbit415, out=out[3]);
+    And(a=bit215, b=Nbit315, out=out[2]);
+    And(a=bit115, b=Nbit215, out=out[1]);
+    And(a=bit015, b=Nbit115, out=out[0]);
+}

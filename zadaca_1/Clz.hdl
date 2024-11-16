@@ -1,0 +1,39 @@
+CHIP Clz {
+    IN in[16];       
+    OUT out[16];
+
+    PARTS:
+	
+	Inc16(in = false, out = bit1);
+	Inc16(in = bit1, out = bit2);
+	Inc16(in = bit2, out = bit3);
+	Inc16(in = bit3, out = bit4);
+	Inc16(in = bit4, out = bit5);
+	Inc16(in = bit5, out = bit6);
+	Inc16(in = bit6, out = bit7);
+	Inc16(in = bit7, out = bit8);
+	Inc16(in = bit8, out = bit9);
+	Inc16(in = bit9, out = bit10);
+	Inc16(in = bit10, out = bit11);
+	Inc16(in = bit11, out = bit12);
+	Inc16(in = bit12, out = bit13);
+	Inc16(in = bit13, out = bit14);
+	Inc16(in = bit14, out = bit15);
+	
+	Mux16(a = false, b = bit15, sel = in[0], out = out1);
+	Mux16(a = out1, b = bit14, sel = in[1], out = out2);
+	Mux16(a = out2, b = bit13, sel = in[2], out = out3);
+	Mux16(a = out3, b = bit12, sel = in[3], out = out4);
+	Mux16(a = out4, b = bit11, sel = in[4], out = out5);
+	Mux16(a = out5, b = bit10, sel = in[5], out = out6);
+	Mux16(a = out6, b = bit9, sel = in[6], out = out7);
+	Mux16(a = out7, b = bit8, sel = in[7], out = out8);
+	Mux16(a = out8, b = bit7, sel = in[8], out = out9);
+	Mux16(a = out9, b = bit6, sel = in[9], out = out10);
+	Mux16(a = out10, b = bit5, sel = in[10], out = out11);
+	Mux16(a = out11, b = bit4, sel = in[11], out = out12);
+	Mux16(a = out12, b = bit3, sel = in[12], out = out13);
+	Mux16(a = out13, b = bit2, sel = in[13], out = out14);
+	Mux16(a = out14, b = bit1, sel = in[14], out = out15);
+	Mux16(a = out15, b = false, sel = in[15], out = out);
+}

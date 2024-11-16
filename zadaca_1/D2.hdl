@@ -1,0 +1,13 @@
+CHIP D2 {
+    IN a, b;
+    OUT out[16];
+
+    PARTS:
+    Xor(a = a, b = b, out = xorOut);
+
+    Not(in = xorOut, out = notXorOut);
+	
+    Inc16(in = false, out = jedan);
+	// odaberi ''1'' ako postoji razlika
+    Mux16(a = jedan, b = false, sel = notXorOut, out = out);
+}

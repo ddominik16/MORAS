@@ -1,0 +1,41 @@
+CHIP Diff {
+    IN a[16], b[16];
+    OUT out[16]; 
+
+    PARTS:
+
+    D2(a=a[0], b=b[0], out=diffBit0);
+    D2(a=a[1], b=b[1], out=diffBit1);
+    D2(a=a[2], b=b[2], out=diffBit2);
+    D2(a=a[3], b=b[3], out=diffBit3);
+    D2(a=a[4], b=b[4], out=diffBit4);
+    D2(a=a[5], b=b[5], out=diffBit5);
+    D2(a=a[6], b=b[6], out=diffBit6);
+    D2(a=a[7], b=b[7], out=diffBit7);
+    D2(a=a[8], b=b[8], out=diffBit8);
+    D2(a=a[9], b=b[9], out=diffBit9);
+    D2(a=a[10], b=b[10], out=diffBit10);
+    D2(a=a[11], b=b[11], out=diffBit11);
+    D2(a=a[12], b=b[12], out=diffBit12);
+    D2(a=a[13], b=b[13], out=diffBit13);
+    D2(a=a[14], b=b[14], out=diffBit14);
+    D2(a=a[15], b=b[15], out=diffBit15);
+	
+
+
+	Add16(a = diffBit0, b = diffBit1, out = r0);
+	Add16(a = r0, b = diffBit2, out = r1);
+	Add16(a = r1, b = diffBit3, out = r2);
+	Add16(a = r2, b = diffBit4, out = r3);
+	Add16(a = r3, b = diffBit5, out = r4);
+	Add16(a = r4, b = diffBit6, out = r5);
+	Add16(a = r5, b = diffBit7, out = r6);
+	Add16(a = r6, b = diffBit8, out = r7);
+	Add16(a = r7, b = diffBit9, out = r8);
+	Add16(a = r8, b = diffBit10, out = r9);
+	Add16(a = r9, b = diffBit11, out = r10);
+	Add16(a = r10, b = diffBit12, out = r11);
+	Add16(a = r11, b = diffBit13, out = r12);
+	Add16(a = r12, b = diffBit14, out = r13);
+	Add16(a = r13, b = diffBit15, out = out);
+}
