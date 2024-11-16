@@ -4,8 +4,8 @@ CHIP RoundToPow {
 
     PARTS:
     // trazimo najvisi bit postavljen na ''1'' na inputu
-	// odnosno postavljamo sve bitove ispod ''najviseg'' na 1 kako bi kasnije znali koji je to bit
-	// bit#### samo oznacava koje bitove usporedujemo, eg. bit1415 = bit14 i bit15, ali radi preglednosti sam skratio
+    // odnosno postavljamo sve bitove ispod ''najviseg'' na 1 kako bi kasnije znali koji je to bit
+    // bit#### samo oznacava koje bitove usporedujemo, eg. bit1415 = bit14 i bit15, ali radi preglednosti sam skratio
     Or(a=in[15], b=in[14], out=bit1415);
     Or(a=bit1415, b=in[13], out=bit1315);
     Or(a=bit1315, b=in[12], out=bit1215);
@@ -22,24 +22,24 @@ CHIP RoundToPow {
     Or(a=bit215, b=in[1], out=bit115);
     Or(a=bit115, b=in[0], out=bit015);
 	
-	// koristimo Not i And kako bi obrisali sve bitove ispod najviseg bita, samo on ostaje postavljen na ''1''
-	// tada finalni out sadrzava najvisu potenciju broja 2 koja je manja ili jednaka inputu 
+    // koristimo Not i And kako bi obrisali sve bitove ispod najviseg bita, samo on ostaje postavljen na ''1''
+    // tada finalni out sadrzava najvisu potenciju broja 2 koja je manja ili jednaka inputu 
 	
-	Not(in = in[15], out = Nin15);
-	Not(in = bit1415, out = Nbit1415);
-	Not(in = bit1315, out = Nbit1315);
-	Not(in = bit1215, out = Nbit1215);
-	Not(in = bit1115, out = Nbit1115);
-	Not(in = bit1015, out = Nbit1015);
-	Not(in = bit915, out = Nbit915);
-	Not(in = bit815, out = Nbit815);
-	Not(in = bit715, out = Nbit715);
-	Not(in = bit615, out = Nbit615);
-	Not(in = bit515, out = Nbit515);
-	Not(in = bit415, out = Nbit415);
-	Not(in = bit315, out = Nbit315);
-	Not(in = bit215, out = Nbit215);
-	Not(in = bit115, out = Nbit115);
+    Not(in = in[15], out = Nin15);
+    Not(in = bit1415, out = Nbit1415);
+    Not(in = bit1315, out = Nbit1315);
+    Not(in = bit1215, out = Nbit1215);
+    Not(in = bit1115, out = Nbit1115);
+    Not(in = bit1015, out = Nbit1015);
+    Not(in = bit915, out = Nbit915);
+    Not(in = bit815, out = Nbit815);
+    Not(in = bit715, out = Nbit715);
+    Not(in = bit615, out = Nbit615);
+    Not(in = bit515, out = Nbit515);
+    Not(in = bit415, out = Nbit415);
+    Not(in = bit315, out = Nbit315);
+    Not(in = bit215, out = Nbit215);
+    Not(in = bit115, out = Nbit115);
 	
     And(a=in[15], b=true, out=out[15]);
     And(a=bit1415, b=Nin15, out=out[14]);
