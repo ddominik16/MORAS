@@ -19,6 +19,7 @@ CHIP Clz {
 	Inc16(in = bit12, out = bit13);
 	Inc16(in = bit13, out = bit14);
 	Inc16(in = bit14, out = bit15);
+	Inc16(in = bit15, out = bit16);
 	
 	Mux16(a = false, b = bit15, sel = in[0], out = out1);
 	Mux16(a = out1, b = bit14, sel = in[1], out = out2);
