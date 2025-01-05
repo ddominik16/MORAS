@@ -1,0 +1,11 @@
+CHIP TwosCompl {
+    IN in[16];
+    OUT out[16];
+
+    PARTS:
+    // negacija svih bitova
+    Not16(in = in, out = neg);
+
+    // dodavanje 1
+    Inc16(in = neg, out = out);
+}
