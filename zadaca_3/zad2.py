@@ -1,5 +1,18 @@
 import re
 class Parser:
+    def _extractArgs(self, command, num_args):
+        # regex za naredbe koje pocinju s $
+        match = re.match(r"\$\w+\(([^)]+)\)", command)
+        if not match:
+            raise ValueError("Nepravila sintaksa. Naredba treba izgledati: $COMMAND(A, B, ...)")
+        
+        args = [arg.strip() for arg in match.group(1).split(",")]
+        
+        if len(args) != num_args:
+            raise ValueError(f"Ocekivano {num_args} argumenata, dobiveno {len(args)}.")
+        
+        return args
+        
     def _parseLine(self, line, n): 
         l = line.split("//")[0].strip()  
         if not l:
@@ -67,16 +80,5 @@ class Parser:
         return (f"@{label}\n0;JMP\n"
                 f"(END_{label})\n")
     
-    def _extractArgs(self, command, num_args):
-        # regex za naredbe koje pocinju s $
-        match = re.match(r"\$\w+\(([^)]+)\)", command)
-        if not match:
-            raise ValueError("Nepravila sintaksa. Naredba treba izgledati: $COMMAND(A, B, ...)")
-        
-        args = [arg.strip() for arg in match.group(1).split(",")]
-        
-        if len(args) != num_args:
-            raise ValueError(f"Ocekivano {num_args} argumenata, dobiveno {len(args)}.")
-        
-        return args
+
 
