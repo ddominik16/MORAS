@@ -29,8 +29,7 @@ class Parser:
                 self._flag = False
                 self._error("Parser", n, str(e))
                 return ""
-        else:
-            return super()._parseLine(line, n)
+
 
     def _mv(self, A, B):
         return (f"@{A}\nD=M\n@{B}\nM=D\n")
