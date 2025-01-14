@@ -13,7 +13,7 @@ class Parser:
         
         return args
         
-    def _parseLine(self, line, n): 
+    def _parseMacro(self, line, n): 
         l = line.split("//")[0].strip()  
         if not l:
             return ""
