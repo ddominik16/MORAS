@@ -1,0 +1,7 @@
+class DrawAxes{
+   function void drawAxes() {
+    do Screen.drawLine(0, 128, 255, 128);  
+    do Screen.drawLine(128, 0, 128, 255);
+    return;
+    }
+}

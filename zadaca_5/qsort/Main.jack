@@ -1,0 +1,41 @@
+class Main {
+    function void main() {
+        var Array A;
+        var int size;
+
+        let A = Array.new(5);
+
+        let A[0] = 2;
+        let A[1] = 3;
+        let A[2] = 8;
+        let A[3] = 5;
+        let A[4] = 1;
+
+        do Output.printInt(A[0]);
+        do Output.println();
+        do Output.printInt(A[1]);
+        do Output.println();
+        do Output.printInt(A[2]);
+        do Output.println();
+        do Output.printInt(A[3]);
+        do Output.println();
+        do Output.printInt(A[4]);
+        do Output.println();
+
+        do Qsort.qsort(A, 0, 5);
+        do Output.println();
+
+        do Output.printInt(A[0]);
+        do Output.println();
+        do Output.printInt(A[1]);
+        do Output.println();
+        do Output.printInt(A[2]);
+        do Output.println();
+        do Output.printInt(A[3]);
+        do Output.println();
+        do Output.printInt(A[4]);
+        do Output.println();
+
+        return;
+    }
+}

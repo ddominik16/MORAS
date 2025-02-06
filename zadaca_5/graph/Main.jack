@@ -1,0 +1,7 @@
+class Main {
+    function void main() {
+        do DrawAxes.drawAxes();
+        do DrawGraph.drawGraph();
+        return;
+    }
+}
