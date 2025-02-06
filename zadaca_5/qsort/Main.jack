@@ -35,8 +35,6 @@ class Main {
         do Output.printInt(arr[4]);
         do Output.println();
 
-        do arr.dispose();
-        //do res.dispose();
         return;
     }
 }
