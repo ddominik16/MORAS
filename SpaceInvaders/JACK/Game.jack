@@ -15,6 +15,7 @@ class Game {
     field int currentEnemyIndex;
     field int debounceEnemyShootTime;
     field int debounceEnemyBulletTime;
+    field int totalAlienSlots;
 
     constructor Game new() {
         do Screen.drawRectangle(0,0,511,255);
@@ -83,6 +84,7 @@ class Game {
         do alien5.draw();
         do alien6.draw();
         let numAliens = 6;
+        let totalAlienSlots = 6;
 
         // If level >= 2, spawnaj jos 2
         if ((level = 2) | (level > 2)) {
@@ -91,6 +93,7 @@ class Game {
             do alien7.draw();
             do alien8.draw();
             let numAliens = 8;
+            let totalAlienSlots = 8;
             // If level >= 4, spawnaj jos 4
             if ((level = 4) | (level > 4)) {
                 let alien9 = Alien.new(230, 140);
@@ -102,6 +105,7 @@ class Game {
                 do alien11.draw();
                 do alien12.draw();
                 let numAliens = 12;
+                let totalAlienSlots = 12;
             } 
         } 
 
@@ -281,7 +285,8 @@ class Game {
     method void updateAliens(){
         var boolean moveInX, directionsMatch;
         let directionsMatch = (direction = directionAux);
-        let moveInX = true & alien1.checkMove(directionsMatch);
+        let moveInX = true;
+        let moveInX = moveInX & alien1.checkMove(directionsMatch);
         let moveInX = moveInX & alien2.checkMove(directionsMatch);
         let moveInX = moveInX & alien3.checkMove(directionsMatch);
         let moveInX = moveInX & alien4.checkMove(directionsMatch);
@@ -593,7 +598,7 @@ class Game {
         // probaj naci aliena da puca, do numAliens puta
         while (attempts < numAliens) {
             let currentEnemyIndex = currentEnemyIndex + 1;
-            if (currentEnemyIndex = numAliens) {
+            if ((currentEnemyIndex = totalAlienSlots) | (currentEnemyIndex > totalAlienSlots)) {
                 let currentEnemyIndex = 0;
             }
 
