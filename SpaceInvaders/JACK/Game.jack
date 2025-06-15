@@ -1,0 +1,716 @@
+class Game {
+    field Ship ship;
+    field Bullet bullet;
+    field Alien alien1, alien2, alien3, alien4, alien5, alien6;
+    field Alien alien7, alien8; // lvl 2+
+    field Alien alien9, alien10, alien11, alien12; // lvl 4+
+    field int numAliens;
+    static int direction, directionAux;
+    field int level;
+    field int score;
+    field int lives;
+    field int debounceAlienTime;   // Alien MS (manje je brze)
+    field int debounceBulletTime;  // Shooting speed (manje je brze)
+    field Bullet enemyBullet;
+    field int currentEnemyIndex;
+    field int debounceEnemyShootTime;
+    field int debounceEnemyBulletTime;
+
+    constructor Game new() {
+        do Screen.drawRectangle(0,0,511,255);
+        do Screen.setColor(false);
+        do Screen.drawLine(155,0,155,255);
+        do Screen.drawLine(355,0,355,255);
+        do Screen.setColor(true);
+
+        do Output.moveCursor(0,0);
+        do Output.printString("SCORE: ");
+        do Output.printInt(score);
+        do Output.printString("      LEVEL: ");
+        do Output.printInt(level);
+        do Output.printString("      LIVES: ");
+        do Output.printInt(lives);
+
+        let ship = Ship.new();
+        let bullet = Bullet.new(ship.getX(), ship.getY()-5, false);
+        let direction = 1;
+        let directionAux = 1;
+        let score = 0;
+        let level = 1;
+        let lives = 3;
+        do setupLevel();
+        let enemyBullet = Bullet.new(0,0, true);
+        let currentEnemyIndex = 0;
+        let debounceEnemyShootTime = 1500;
+        let debounceEnemyBulletTime = debounceBulletTime;
+
+        do ship.draw();
+        do Sys.wait(1000);
+
+        return this;
+    }
+
+    method void setupLevel() {
+        // Obrisi sve stare
+        if (~(alien1 = null)) { do alien1.setStatus(false); }
+        if (~(alien2 = null)) { do alien2.setStatus(false); }
+        if (~(alien3 = null)) { do alien3.setStatus(false); }
+        if (~(alien4 = null)) { do alien4.setStatus(false); }
+        if (~(alien5 = null)) { do alien5.setStatus(false); }
+        if (~(alien6 = null)) { do alien6.setStatus(false); }
+        if (~(alien7 = null)) { do alien7.setStatus(false); }
+        if (~(alien8 = null)) { do alien8.setStatus(false); }
+        if (~(alien9 = null)) { do alien9.setStatus(false); }
+        if (~(alien10 = null)) { do alien10.setStatus(false); }
+        if (~(alien11 = null)) { do alien11.setStatus(false); }
+        if (~(alien12 = null)) { do alien12.setStatus(false); }
+        if (~(enemyBullet = null)) { do enemyBullet.reset(); }
+
+        let currentEnemyIndex = 0;
+
+        // uvijek spawnaj prvih 6
+        let alien1 = Alien.new(230, 60);
+        let alien2 = Alien.new(250, 60);
+        let alien3 = Alien.new(270, 60);
+        let alien4 = Alien.new(230, 70);
+        let alien5 = Alien.new(250, 150);
+        let alien6 = Alien.new(270, 70);
+
+        do alien1.draw();
+        do alien2.draw();
+        do alien3.draw();
+        do alien4.draw();
+        do alien5.draw();
+        do alien6.draw();
+        let numAliens = 6;
+
+        // If level >= 2, spawnaj jos 2
+        if ((level = 2) | (level > 2)) {
+            let alien7 = Alien.new(210, 60);
+            let alien8 = Alien.new(290, 60);
+            do alien7.draw();
+            do alien8.draw();
+            let numAliens = 8;
+            // If level >= 4, spawnaj jos 4
+            if ((level = 4) | (level > 4)) {
+                let alien9 = Alien.new(230, 140);
+                let alien10 = Alien.new(270, 140);
+                let alien11 = Alien.new(230, 80);
+                let alien12 = Alien.new(270, 80);
+                do alien9.draw();
+                do alien10.draw();
+                do alien11.draw();
+                do alien12.draw();
+                let numAliens = 12;
+            } 
+        } 
+
+        // svaki level postaju brzi
+        let debounceAlienTime = 3000 - (level * 400);
+        if (debounceAlienTime < 500) {
+            let debounceAlienTime = 500;
+        }
+
+        // svaki level se puca brze
+        let debounceBulletTime = 50 - (level * 5);
+        if (debounceBulletTime < 5) {
+            let debounceBulletTime = 5;
+        }
+
+
+        return;
+    }
+
+    method void run() {
+        var boolean gameActive, msg;
+        var int ch, debounceTime, time, alienTime, bulletTime, newSpeed;
+        var int enemyShootTime;
+        var int enemybulletTime;
+
+        let gameActive = true;
+        let msg = true;
+        let debounceTime = 200;
+
+        while(gameActive) {
+            let time = time + 1;
+            if (time = debounceTime) {
+                let ch = Keyboard.keyPressed();
+
+                if (ch = 130) { do ship.moveLeft(); }
+                if (ch = 132) { do ship.moveRight(); }
+
+                if (ch = 32){
+                    if(bullet.getStatus() = false){
+                        do bullet.setX(ship.getX()+5);
+                        do bullet.setBulletStatus(true);
+                    }
+                }
+                let time = 0;
+            }
+			
+			
+            let bulletTime = bulletTime + 1;
+            if (bulletTime = debounceBulletTime){
+                if (bullet.getStatus() = true){
+                    do bullet.update();
+                    do checkCollisions();
+                }
+                let bulletTime = 0;
+            }
+
+            let alienTime = alienTime + 1;
+            if (alienTime = debounceAlienTime){
+                do updateAliens();
+                if(aliensReachBottom()){
+                    let gameActive = false;
+                }
+                let alienTime = 0;
+            }
+
+            if (numAliens = 0) {
+                let level = level + 1;
+                do showLevelUpMsg();
+
+                do Screen.drawRectangle(0,0,511,255);
+                do Screen.setColor(false);
+                do Screen.drawLine(155,0,155,255);
+                do Screen.drawLine(355,0,355,255);
+                do Screen.setColor(true);
+
+                do Output.moveCursor(0,0);
+                do Output.printString("SCORE: ");
+                do Output.printInt(score);
+                do Output.printString("      LEVEL: ");
+                do Output.printInt(level);
+                do Output.printString("      LIVES: ");
+                do Output.printInt(lives);
+
+                do setupLevel();
+            }
+            if (ch = 140){
+                do Screen.clearScreen();
+                let msg = false;
+                let gameActive = false;
+            }
+			
+			let newSpeed = 2 + level;
+			if (newSpeed > 8) {
+				let newSpeed = 8;
+			}
+			do ship.setMoveSpeed(newSpeed);
+
+            let enemyShootTime = enemyShootTime + 1;
+            if (enemyShootTime = debounceEnemyShootTime){
+                do enemyShoot();
+                let enemyShootTime = 0;
+            }
+
+            let enemybulletTime = enemybulletTime + 1;
+            if (enemybulletTime = debounceEnemyBulletTime) {
+                if (enemyBullet.getStatus()){
+                    do enemyBullet.update();
+                    do checkEnemyBulletCollision();
+                }
+                let enemybulletTime = 0;
+            }
+        }
+
+        if(numAliens = 0){
+            do winAlert(msg);
+        }else{
+            do gameOver(msg);
+        }
+
+        // na kraju obrisi sve
+        do ship.dispose();
+        do bullet.dispose();
+        do alien1.dispose();
+        do alien2.dispose();
+        do alien3.dispose();
+        do alien4.dispose();
+        do alien5.dispose();
+        do alien6.dispose();
+        if ((level = 2) | (level > 2)) {
+            do alien7.dispose();
+            do alien8.dispose();
+        }
+        if ((level = 4) | (level > 4)) {
+            do alien9.dispose();
+            do alien10.dispose();
+            do alien11.dispose();
+            do alien12.dispose();
+        }
+        do Memory.deAlloc(this);
+        return;
+    }
+
+    method void gameOver(boolean msg){
+        var int ch;
+        if (msg){
+            do Output.moveCursor(11, 28);
+            do Output.printString("Game over");
+
+            do Sys.wait(500);
+            while (msg){
+                let ch = Keyboard.keyPressed();
+                if (ch = 140 | ch = 32){
+                    let msg = false;
+                    while(~(ch = 0)){
+                        let ch = Keyboard.keyPressed();
+                    }
+                }
+            }
+        }
+        return;
+    }
+
+    method void winAlert(boolean msg){
+        var int ch;
+        do Output.moveCursor(11, 29);
+        do Output.printString("YOU WIN");
+        do Sys.wait(500);
+        while (msg){
+            let ch = Keyboard.keyPressed();
+            if (ch = 140 | ch = 32){
+                let msg = false;
+            }
+        }
+        return;
+    }
+
+    method void updateAliens(){
+        var boolean moveInX, directionsMatch;
+        let directionsMatch = (direction = directionAux);
+        let moveInX = true & alien1.checkMove(directionsMatch);
+        let moveInX = moveInX & alien2.checkMove(directionsMatch);
+        let moveInX = moveInX & alien3.checkMove(directionsMatch);
+        let moveInX = moveInX & alien4.checkMove(directionsMatch);
+        let moveInX = moveInX & alien5.checkMove(directionsMatch);
+        let moveInX = moveInX & alien6.checkMove(directionsMatch);
+        if ((level = 2) | (level > 2)) {
+            let moveInX = moveInX & alien7.checkMove(directionsMatch);
+            let moveInX = moveInX & alien8.checkMove(directionsMatch);
+            if ((level = 4) | (level > 4)) {
+                let moveInX = moveInX & alien9.checkMove(directionsMatch);
+                let moveInX = moveInX & alien10.checkMove(directionsMatch);
+                let moveInX = moveInX & alien11.checkMove(directionsMatch);
+                let moveInX = moveInX & alien12.checkMove(directionsMatch);
+            }
+        }
+        if (moveInX){
+            do alien1.updateX();
+            do alien2.updateX();
+            do alien3.updateX();
+            do alien4.updateX();
+            do alien5.updateX();
+            do alien6.updateX();
+            if ((level = 2) | (level > 2)) {
+                do alien7.updateX();
+                do alien8.updateX();
+                if ((level = 4) | (level > 4)) {
+                    do alien9.updateX();
+                    do alien10.updateX();
+                    do alien11.updateX();
+                    do alien12.updateX();
+                }
+            }
+            let directionAux = direction;
+        }
+        else{
+            do alien4.updateY();
+            do alien5.updateY();
+            do alien6.updateY();
+            do alien1.updateY();
+            do alien2.updateY();
+            do alien3.updateY();
+            if ((level = 2) | (level > 2)) {
+                do alien7.updateY();
+                do alien8.updateY();
+                if ((level = 4) | (level > 4)) {
+                    do alien9.updateY();
+                    do alien10.updateY();
+                    do alien11.updateY();
+                    do alien12.updateY();
+                }
+            }
+        }
+        return;
+    }
+
+    method boolean aliensReachBottom(){
+        if (alien1.getStatus()){
+            if (alien1.getY() > 200){
+                return true;
+            }
+        }
+        if (alien2.getStatus()){
+            if (alien2.getY() > 200){
+                return true;
+            }
+        }
+        if (alien3.getStatus()){
+            if (alien3.getY() > 200){
+                return true;
+            }
+        }
+        if (alien4.getStatus()){
+            if (alien4.getY() > 200){
+                return true;
+            }
+        }
+        if (alien5.getStatus()){
+            if (alien5.getY() > 200){
+                return true;
+            }
+        }
+        if (alien6.getStatus()){
+            if (alien6.getY() > 200){
+                return true;
+            }
+        }
+        if ((level = 2) | (level > 2)) {
+            if (alien7.getStatus()){
+                if (alien7.getY() > 200){
+                    return true;
+                }
+            }
+            if (alien8.getStatus()){
+                if (alien8.getY() > 200){
+                    return true;
+                }
+            }
+            if ((level = 4) | (level > 4)) {
+                if (alien9.getStatus()){
+                    if (alien9.getY() > 200){
+                        return true;
+                    }
+                }
+                if (alien10.getStatus()){
+                    if (alien10.getY() > 200){
+                        return true;
+                    }
+                }
+                if (alien11.getStatus()){
+                    if (alien11.getY() > 200){
+                        return true;
+                    }
+                }
+                if (alien12.getStatus()){
+                    if (alien12.getY() > 200){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    // TODO: scoreboard
+
+    method void checkCollisions(){
+        if ((alien1.getStatus() = true) & (bullet.getX() > (alien1.getX()-2)) & (bullet.getX() < (alien1.getX()+11)) & (bullet.getY() > alien1.getY()) & (bullet.getY() < (alien1.getY()+7))){
+            do alien1.kill();
+            let score = score + 1;
+            do Output.moveCursor(0,0);
+            do Output.printString("SCORE: ");
+            do Output.printInt(score);
+            do Output.printString("      LEVEL: ");
+            do Output.printInt(level);
+            do Output.printString("      LIVES: ");
+            do Output.printInt(lives);
+            do bullet.reset();
+            let numAliens = numAliens-1;
+        }
+        if ((alien2.getStatus() = true) & (bullet.getX() > (alien2.getX()-2)) & (bullet.getX() < (alien2.getX()+11)) & (bullet.getY() > alien2.getY()) & (bullet.getY() < (alien2.getY()+7))){
+            do alien2.kill();
+            let score = score + 1;
+            do Output.moveCursor(0,0);
+            do Output.printString("SCORE: ");
+            do Output.printInt(score);
+            do Output.printString("      LEVEL: ");
+            do Output.printInt(level);
+            do Output.printString("      LIVES: ");
+            do Output.printInt(lives);
+            do bullet.reset();
+            let numAliens = numAliens-1;
+        }
+        if ((alien3.getStatus() = true) & (bullet.getX() > (alien3.getX()-2)) & (bullet.getX() < (alien3.getX()+11)) & (bullet.getY() > alien3.getY()) & (bullet.getY() < (alien3.getY()+7))){
+            do alien3.kill();
+            let score = score + 1;
+            do Output.moveCursor(0,0);
+            do Output.printString("SCORE: ");
+            do Output.printInt(score);
+            do Output.printString("      LEVEL: ");
+            do Output.printInt(level);
+            do Output.printString("      LIVES: ");
+            do Output.printInt(lives);
+            do bullet.reset();
+            let numAliens = numAliens-1;
+        }
+        if ((alien4.getStatus() = true) & (bullet.getX() > (alien4.getX()-2)) & (bullet.getX() < (alien4.getX()+11)) & (bullet.getY() > alien4.getY()) & (bullet.getY() < (alien4.getY()+7))){
+            do alien4.kill();
+            let score = score + 1;
+            do Output.moveCursor(0,0);
+            do Output.printString("SCORE: ");
+            do Output.printInt(score);
+            do Output.printString("      LEVEL: ");
+            do Output.printInt(level);
+            do Output.printString("      LIVES: ");
+            do Output.printInt(lives);
+            do bullet.reset();
+            let numAliens = numAliens-1;
+        }
+        if ((alien5.getStatus() = true) & (bullet.getX() > (alien5.getX()-2)) & (bullet.getX() < (alien5.getX()+11)) & (bullet.getY() > alien5.getY()) & (bullet.getY() < (alien5.getY()+7))){
+            do alien5.kill();
+            let score = score + 1;
+            do Output.moveCursor(0,0);
+            do Output.printString("SCORE: ");
+            do Output.printInt(score);
+            do Output.printString("      LEVEL: ");
+            do Output.printInt(level);
+            do Output.printString("      LIVES: ");
+            do Output.printInt(lives);
+            do bullet.reset();
+            let numAliens = numAliens-1;
+        }
+        if ((alien6.getStatus() = true) & (bullet.getX() > (alien6.getX()-2)) & (bullet.getX() < (alien6.getX()+11)) & (bullet.getY() > alien6.getY()) & (bullet.getY() < (alien6.getY()+7))){
+            do alien6.kill();
+            let score = score + 1;
+            do Output.moveCursor(0,0);
+            do Output.printString("SCORE: ");
+            do Output.printInt(score);
+            do Output.printString("      LEVEL: ");
+            do Output.printInt(level);
+            do Output.printString("      LIVES: ");
+            do Output.printInt(lives);
+            do bullet.reset();
+            let numAliens = numAliens-1;
+        }
+        if ((level = 2) | (level > 2)) {
+            if ((alien7.getStatus() = true) & (bullet.getX() > (alien7.getX()-2)) & (bullet.getX() < (alien7.getX()+11)) & (bullet.getY() > alien7.getY()) & (bullet.getY() < (alien7.getY()+7))){
+                do alien7.kill();
+                let score = score + 1;
+                do Output.moveCursor(0,0);
+                do Output.printString("SCORE: ");
+                do Output.printInt(score);
+                do Output.printString("      LEVEL: ");
+                do Output.printInt(level);
+                do Output.printString("      LIVES: ");
+                do Output.printInt(lives);
+                do bullet.reset();
+                let numAliens = numAliens-1;
+            }
+            if ((alien8.getStatus() = true) & (bullet.getX() > (alien8.getX()-2)) & (bullet.getX() < (alien8.getX()+11)) & (bullet.getY() > alien8.getY()) & (bullet.getY() < (alien8.getY()+7))){
+                do alien8.kill();
+                let score = score + 1;
+                do Output.moveCursor(0,0);
+                do Output.printString("SCORE: ");
+                do Output.printInt(score);
+                do Output.printString("      LEVEL: ");
+                do Output.printInt(level);
+                do Output.printString("      LIVES: ");
+                do Output.printInt(lives);
+                do bullet.reset();
+                let numAliens = numAliens-1;
+            }
+            if ((level = 4) | (level > 4)) {
+                if ((alien9.getStatus() = true) & (bullet.getX() > (alien9.getX()-2)) & (bullet.getX() < (alien9.getX()+11)) & (bullet.getY() > alien9.getY()) & (bullet.getY() < (alien9.getY()+7))){
+                    do alien9.kill();
+                    let score = score + 1;
+                    do Output.moveCursor(0,0);
+                    do Output.printString("SCORE: ");
+                    do Output.printInt(score);
+                    do Output.printString("      LEVEL: ");
+                    do Output.printInt(level);
+                    do Output.printString("      LIVES: ");
+                    do Output.printInt(lives);
+                    do bullet.reset();
+                    let numAliens = numAliens-1;
+                }
+                if ((alien10.getStatus() = true) & (bullet.getX() > (alien10.getX()-2)) & (bullet.getX() < (alien10.getX()+11)) & (bullet.getY() > alien10.getY()) & (bullet.getY() < (alien10.getY()+7))){
+                    do alien10.kill();
+                    let score = score + 1;
+                    do Output.moveCursor(0,0);
+                    do Output.printString("SCORE: ");
+                    do Output.printInt(score);
+                    do Output.printString("      LEVEL: ");
+                    do Output.printInt(level);
+                    do Output.printString("      LIVES: ");
+                    do Output.printInt(lives);
+                    do bullet.reset();
+                    let numAliens = numAliens-1;
+                }
+                if ((alien11.getStatus() = true) & (bullet.getX() > (alien11.getX()-2)) & (bullet.getX() < (alien11.getX()+11)) & (bullet.getY() > alien11.getY()) & (bullet.getY() < (alien11.getY()+7))){
+                    do alien11.kill();
+                    let score = score + 1;
+                    do Output.moveCursor(0,0);
+                    do Output.printString("SCORE: ");
+                    do Output.printInt(score);
+                    do Output.printString("      LEVEL: ");
+                    do Output.printInt(level);
+                    do Output.printString("      LIVES: ");
+                    do Output.printInt(lives);
+                    do bullet.reset();
+                    let numAliens = numAliens-1;
+                }
+                if ((alien12.getStatus() = true) & (bullet.getX() > (alien12.getX()-2)) & (bullet.getX() < (alien12.getX()+11)) & (bullet.getY() > alien12.getY()) & (bullet.getY() < (alien12.getY()+7))){
+                    do alien12.kill();
+                    let score = score + 1;
+                    do Output.moveCursor(0,0);
+                    do Output.printString("SCORE: ");
+                    do Output.printInt(score);
+                    do Output.printString("      LEVEL: ");
+                    do Output.printInt(level);
+                    do Output.printString("      LIVES: ");
+                    do Output.printInt(lives);
+                    do bullet.reset();
+                    let numAliens = numAliens-1;
+                }
+            }
+        }
+        return;
+    }
+
+    // TODO: lvlupmsg, enemy pew pew i enemy collision, enemy speed up, lives / levele popravit
+
+    method void showLevelUpMsg() {
+        do Output.moveCursor(11, 25);
+        do Output.printString("LEVEL UP!");
+        do Sys.wait(1000);
+        do Output.moveCursor(11, 25);
+        do Output.printString("         ");
+        return;
+    }
+	
+    method void enemyShoot() {
+        var int attempts;
+        let attempts = 0;
+
+        if (numAliens = 0) {
+            return;
+        }
+
+        // probaj naci aliena da puca, do numAliens puta
+        while (attempts < numAliens) {
+            let currentEnemyIndex = currentEnemyIndex + 1;
+            if (currentEnemyIndex = numAliens) {
+                let currentEnemyIndex = 0;
+            }
+
+            // probaj svakog, ali samo ako nije null i active je
+            if (~(alien1 = null) & (currentEnemyIndex = 0) & alien1.getStatus()) {
+                do activateEnemyBullet(alien1);
+                return;
+            }
+            if (~(alien2 = null) & (currentEnemyIndex = 1) & alien2.getStatus()) {
+                do activateEnemyBullet(alien2);
+                return;
+            }
+            if (~(alien3 = null) & (currentEnemyIndex = 2) & alien3.getStatus()) {
+                do activateEnemyBullet(alien3);
+                return;
+            }
+            if (~(alien4 = null) & (currentEnemyIndex = 3) & alien4.getStatus()) {
+                do activateEnemyBullet(alien4);
+                return;
+            }
+            if (~(alien5 = null) & (currentEnemyIndex = 4) & alien5.getStatus()) {
+                do activateEnemyBullet(alien5);
+                return;
+            }
+            if (~(alien6 = null) & (currentEnemyIndex = 5) & alien6.getStatus()) {
+                do activateEnemyBullet(alien6);
+                return;
+            }
+            if ((level = 2) | (level > 2)) {
+                if (~(alien7 = null) & (currentEnemyIndex = 6) & alien7.getStatus()) {
+                    do activateEnemyBullet(alien7);
+                    return;
+                }
+                if (~(alien8 = null) & (currentEnemyIndex = 7) & alien8.getStatus()) {
+                    do activateEnemyBullet(alien8);
+                    return;
+                }
+            }
+            if ((level = 4) | (level > 4)) {
+                if (~(alien9 = null) & (currentEnemyIndex = 8) & alien9.getStatus()) {
+                    do activateEnemyBullet(alien9);
+                    return;
+                }
+                if (~(alien10 = null) & (currentEnemyIndex = 9) & alien10.getStatus()) {
+                    do activateEnemyBullet(alien10);
+                    return;
+                }
+                if (~(alien11 = null) & (currentEnemyIndex = 10) & alien11.getStatus()) {
+                    do activateEnemyBullet(alien11);
+                    return;
+                }
+                if (~(alien12 = null) & (currentEnemyIndex = 11) & alien12.getStatus()) {
+                    do activateEnemyBullet(alien12);
+                    return;
+                }
+            }
+            let attempts = attempts + 1;
+        }
+        return;
+    }
+
+
+    method void activateEnemyBullet(Alien alien){
+        if ((enemyBullet.getStatus() = false) & (alien.getStatus())){
+            do enemyBullet.setX(alien.getX() + 5);
+            do enemyBullet.setY(alien.getY() + 10);
+            do enemyBullet.setBulletStatus(true);
+        }
+
+        return;
+    }
+
+    
+    method void checkEnemyBulletCollision() {
+        var int bulletX, bulletY, shipX, shipY;
+        var int shipLeft, shipRight, shipTop, shipBottom;
+        var int bulletLeft, bulletRight, bulletTop, bulletBottom;
+            
+        if (enemyBullet.getStatus()) {
+            let bulletX = enemyBullet.getX();
+            let bulletY = enemyBullet.getY();
+            let shipX = ship.getX();
+            let shipY = ship.getY();
+            let shipLeft = shipX;
+            let shipRight = shipX + 10;  // 11px (0-10)
+            let shipTop = shipY + 5;     
+            let shipBottom = shipY + 8;  // 4px (5-8)
+            // Bullet (2x6px)
+            let bulletLeft = bulletX;
+            let bulletRight = bulletX + 1;
+            let bulletTop = bulletY;
+            let bulletBottom = bulletY + 5;
+            if ((bulletRight > shipLeft) & (bulletLeft < shipRight) &
+                (bulletBottom > shipTop) & (bulletTop < shipBottom)) {
+                
+                do enemyBullet.reset();
+                let lives = lives - 1;
+                do Output.moveCursor(0,0);
+                do Output.printString("SCORE: ");
+                do Output.printInt(score);
+                do Output.printString("      LEVEL: ");
+                do Output.printInt(level);
+                do Output.printString("      LIVES: ");
+                do Output.printInt(lives);
+                                
+                if (lives = 0) { do gameOver(true); }
+             }
+        }
+        return;
+    }
+
+    function int getDirection(){
+        return direction;
+    }
+
+    function void setDirection(int newDirection){
+        let direction = newDirection;
+        return;
+    }
+}

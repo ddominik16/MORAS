@@ -1,0 +1,80 @@
+class Alien{
+    field int x,y;
+    field boolean status;
+
+    constructor Alien new(int Ax,int Ay){
+        let x = Ax;
+        let y = Ay;
+        let status = true;
+        return this;
+    }
+	
+
+	
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+    method void draw(){
+        do Ships.drawAlien(x,y,false);
+        return;
+    }
+
+    
+    method boolean checkMove(boolean directionsMatch){
+        if(directionsMatch & status){
+            if (x > 339){
+                do Game.setDirection(-1);
+                return false; 
+            }
+            if (x < 170){
+                do Game.setDirection(1);
+                return false; 
+            }
+        }        
+        return true;
+    }
+
+    method void updateX(){
+        if(status){
+            do Ships.drawAlien(x,y,true);
+            let x = Game.getDirection()*10+x;
+            do Ships.drawAlien(x,y,false); 
+        }        
+        return;
+    }
+
+    method void updateY(){
+        if(status){
+            do Ships.drawAlien(x,y,true);
+            let y = y + 10;
+            do Ships.drawAlien(x,y,false);
+        }       
+        return;
+    }
+
+    method void kill(){
+        do Ships.drawAlien(x,y,true);
+        let status = false;
+        return;
+    }
+
+    method int getX(){
+        return x;
+    }
+
+    method int getY(){
+        return y;
+    }
+
+    method boolean getStatus(){
+        return status;
+    }
+
+    method void setStatus(boolean newStatus){
+        let status = newStatus;
+        return;
+    }
+	
+	
+}

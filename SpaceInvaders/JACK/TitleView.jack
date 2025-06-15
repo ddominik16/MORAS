@@ -1,0 +1,255 @@
+class TitleView {
+    function void setView(int x, int y){
+        do TitleView.S(x, y, false);
+        do TitleView.P(x+33, y, false);
+        do TitleView.A(x+63, y-3, false);
+        do TitleView.C(x+96, y-3, false);
+        do TitleView.E(x+123, y-3, false);
+
+        do TitleView.I_(x+3, y+66, false);
+        do TitleView.N_(x+12, y+66, false);
+        do TitleView.V_(x+33, y+66, false);
+        do TitleView.A_(x+54, y+66, false);
+        do TitleView.D_(x+75, y+66, false);
+        do TitleView.E_(x+96, y+66, false);
+        do TitleView.R_(x+117, y+66, false);
+        do TitleView.S_(x+138, y+66, false);
+
+        do TitleView.P2(x-20, y+150, false);
+        do TitleView.R2(x, y+150, false);
+        do TitleView.E2(x+20, y+150, false);
+        do TitleView.S2(x+40, y+150, false);
+        do TitleView.S2(x+60, y+150, false);
+
+        do TitleView.S2(x+100, y+150, false);
+        do TitleView.P2(x+120, y+150, false);
+        do TitleView.A2(x+140, y+150, false);
+        do TitleView.C2(x+160, y+150, false);
+        do TitleView.E2(x+180, y+150, false);
+        return;
+    }
+
+    function void drawRectangle3(int x, int y, int x1, int y1, int x2, int y2){
+        do Screen.drawRectangle(x+(x1*3), y+(y1*3), x+((x2+1)*3), y+((y2+1)*3));
+        return;
+    }
+
+    function void drawRectangle(int x, int y, int x1, int y1, int x2, int y2){
+        do Screen.drawRectangle(x+(x1), y+(y1), x+((x2+1)), y+((y2+1)));
+        return;
+    }
+
+    function void S(int x,int y, boolean color) {
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,1,0,4,4);
+        do TitleView.drawRectangle3(x,y,5,2,7,6);
+        do TitleView.drawRectangle3(x,y,5,1,6,1);
+        do TitleView.drawRectangle3(x,y,0,1,0,6);
+        do TitleView.drawRectangle3(x,y,1,5,1,9);
+        do TitleView.drawRectangle3(x,y,2,7,3,10);
+        do TitleView.drawRectangle3(x,y,4,9,5,11);
+        do TitleView.drawRectangle3(x,y,6,10,6,12);
+        do TitleView.drawRectangle3(x,y,7,10,7,18);
+        do TitleView.drawRectangle3(x,y,8,11,8,17);
+        do TitleView.drawRectangle3(x,y,5,15,6,18);
+        do TitleView.drawRectangle3(x,y,3,13,4,16);
+        do TitleView.drawRectangle3(x,y,4,17,4,17);
+        return;
+    }
+
+    function void P(int x,int y, boolean color) {
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,0,0,0,9);
+        do TitleView.drawRectangle3(x,y,1,0,6,11);
+        do TitleView.drawRectangle3(x,y,7,1,7,9);
+        do TitleView.drawRectangle3(x,y,8,2,8,8);
+        do TitleView.drawRectangle3(x,y,1,12,3,18);
+        do Screen.setColor(~color);
+        do TitleView.drawRectangle3(x,y,3,4,5,7);
+        return;
+    }
+
+    function void A(int x,int y, boolean color) {
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,3,0,5,2);
+
+        do TitleView.drawRectangle3(x,y,2,1,6,19);
+
+        do TitleView.drawRectangle3(x,y,1,5,1,10);
+        do TitleView.drawRectangle3(x,y,7,5,7,10);
+        do TitleView.drawRectangle3(x,y,1,14,1,17);
+        do TitleView.drawRectangle3(x,y,7,14,7,17);
+
+        do TitleView.drawRectangle3(x,y,0,16,0,16);
+        do TitleView.drawRectangle3(x,y,8,16,8,16);
+
+        do Screen.setColor(~color);
+        do TitleView.drawRectangle3(x,y,3,8,3,9);
+        do TitleView.drawRectangle3(x,y,5,8,5,9);
+
+        do TitleView.drawRectangle3(x,y,4,13,4,19);
+        do TitleView.drawRectangle3(x,y,3,15,5,15);
+        return;
+    }
+
+    function void C(int x,int y, boolean color) {
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,3,0,6,0);
+        do TitleView.drawRectangle3(x,y,2,1,7,1);
+        do TitleView.drawRectangle3(x,y,1,3,1,9);
+
+        do TitleView.drawRectangle3(x,y,2,2,5,4);
+        do TitleView.drawRectangle3(x,y,6,2,8,7);
+        do TitleView.drawRectangle3(x,y,2,5,3,9);
+        do TitleView.drawRectangle3(x,y,0,10,2,15);
+        do TitleView.drawRectangle3(x,y,4,14,6,15);
+
+        do TitleView.drawRectangle3(x,y,0,16,6,16);
+        do TitleView.drawRectangle3(x,y,1,17,5,17);
+
+        do TitleView.drawRectangle3(x,y,2,18,4,19);
+        return;
+    }
+
+    function void E(int x,int y, boolean color) {
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,3,0,9,4);
+        do TitleView.drawRectangle3(x,y,3,5,4,11);
+        do TitleView.drawRectangle3(x,y,5,9,6,11);        
+        do TitleView.drawRectangle3(x,y,2,5,2,14);
+        do TitleView.drawRectangle3(x,y,1,10,1,14);
+
+        do TitleView.drawRectangle3(x,y,0,15,2,19);
+
+        do TitleView.drawRectangle3(x,y,3,16,5,19);
+        return;
+    }
+    
+
+    function void I_(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,0,0,1,9);
+        return;
+    }
+
+    function void N_(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,0,0,1,9);
+        do TitleView.drawRectangle3(x,y,2,3,2,5);
+        do TitleView.drawRectangle3(x,y,3,4,3,6);
+        do TitleView.drawRectangle3(x,y,4,0,5,9);
+        return;
+    }
+
+    function void V_(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,0,0,1,4);  
+        do TitleView.drawRectangle3(x,y,4,0,5,4);
+        do TitleView.drawRectangle3(x,y,1,5,4,7);
+        do TitleView.drawRectangle3(x,y,2,8,3,9);
+        return;
+    }
+
+    function void A_(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,1,0,3,0);  
+        do TitleView.drawRectangle3(x,y,0,1,4,9);
+
+        do Screen.setColor(~color);
+        do TitleView.drawRectangle3(x,y,2,3,2,4);
+        do TitleView.drawRectangle3(x,y,2,7,2,9);
+        return;
+    }
+
+    function void D_(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,0,0,3,9);  
+        do TitleView.drawRectangle3(x,y,4,1,4,7);
+
+        do Screen.setColor(~color);
+        do TitleView.drawRectangle3(x,y,2,2,2,7);
+        return;
+    }
+
+    function void E_(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,0,0,4,9); 
+
+        do Screen.setColor(~color);
+        do TitleView.drawRectangle3(x,y,2,1,4,4);
+        do TitleView.drawRectangle3(x,y,2,6,4,8);
+        return;
+    }
+
+    function void R_(int x, int y, boolean color){
+        do TitleView.A_(x,y,color);
+        do TitleView.drawRectangle3(x,y,4,5,4,5);
+        return;
+    }
+
+    function void S_(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle3(x,y,1,0,3,0);
+        do TitleView.drawRectangle3(x,y,3,1,4,1);  
+        do TitleView.drawRectangle3(x,y,0,1,1,4);
+        do TitleView.drawRectangle3(x,y,1,5,3,5);
+        do TitleView.drawRectangle3(x,y,3,6,4,7);
+        do TitleView.drawRectangle3(x,y,1,8,3,9);
+        do TitleView.drawRectangle3(x,y,0,7,1,7);
+        return;
+    }
+
+
+    function void A2(int x,int y, boolean color) {
+        do Screen.setColor(color);
+        do TitleView.drawRectangle(x,y,1,0,3,0);  
+        do TitleView.drawRectangle(x,y,0,1,4,9);
+
+        do Screen.setColor(~color);
+        do TitleView.drawRectangle(x,y,2,3,2,4);
+        do TitleView.drawRectangle(x,y,2,7,2,9);
+        return;
+    }
+
+    function void P2(int x, int y, boolean color){
+        do TitleView.A2(x,y,color);
+        do TitleView.drawRectangle(x,y,4,6,4,9);
+        return;
+    }
+    function void R2(int x, int y, boolean color){
+        do TitleView.A2(x,y,color);
+        do TitleView.drawRectangle(x,y,4,5,4,5);
+        return;
+    }
+    function void E2(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle(x,y,0,0,4,9); 
+
+        do Screen.setColor(~color);
+        do TitleView.drawRectangle(x,y,2,2,4,3);
+        do TitleView.drawRectangle(x,y,2,7,4,7);
+        return;
+    }
+    function void S2(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle(x,y,1,0,3,0);
+        do TitleView.drawRectangle(x,y,3,1,4,1);  
+        do TitleView.drawRectangle(x,y,0,1,1,4);
+        do TitleView.drawRectangle(x,y,1,5,3,5);
+        do TitleView.drawRectangle(x,y,4,6,4,7);
+        do TitleView.drawRectangle(x,y,1,8,3,9);
+        do TitleView.drawRectangle(x,y,0,7,0,7);
+        return;
+    }
+    function void C2(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do TitleView.drawRectangle(x,y,0,0,4,9); 
+
+        do Screen.setColor(~color);
+        do TitleView.drawRectangle(x,y,2,2,4,7);
+        return;
+    }
+
+    
+
+}

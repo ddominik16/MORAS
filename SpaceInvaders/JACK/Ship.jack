@@ -1,0 +1,57 @@
+class Ship {
+	field int x, y;
+	field int moveSpeed;
+	
+	constructor Ship new() {
+		let x = 250;
+		let y = 230;
+		let moveSpeed = 2;
+		return this;
+	}
+	
+    method void draw(){
+        do Ships.drawShip(x,y,false);
+        return;
+    }
+	
+	method void moveLeft() {
+		if (x-moveSpeed > 160) {
+			do Ships.drawShip(x,y,true);
+			let x = x - moveSpeed;
+			do Ships.drawShip(x,y,false);
+		}
+		return;
+	}
+
+	method void moveRight() {
+		if (x+moveSpeed < 340){
+            do Ships.drawShip(x,y,true);
+            let x = x + moveSpeed;
+            do Ships.drawShip(x,y,false);
+        }
+		return;
+	}
+
+
+    method void shoot(Bullet bullet){
+        if(bullet.getStatus() = false){
+            do bullet.setX(x+5); 
+            do bullet.setStatus(); 
+        }
+        return;
+    }
+	
+	method int getX() { return x; }
+	method int getY() { return y; }
+	
+	method void setMoveSpeed(int newSpeed) {
+        let moveSpeed = newSpeed;
+        return;
+    }
+	
+	method void dispose() {
+		do Memory.deAlloc(this);
+		return;
+	}
+	
+}

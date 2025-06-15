@@ -1,0 +1,80 @@
+function Main.main 3
+label WHILE_EXP0
+push constant 0
+not
+not
+if-goto WHILE_END0
+push local 2
+not
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+push constant 0
+push constant 511
+push constant 255
+call Screen.drawRectangle 4
+pop temp 0
+push constant 185
+push constant 50
+call TitleView.setView 2
+pop temp 0
+push constant 0
+not
+pop local 2
+push constant 300
+call Sys.wait 1
+pop temp 0
+label IF_FALSE0
+call Keyboard.keyPressed 0
+pop local 1
+push local 1
+push constant 32
+eq
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+call Screen.clearScreen 0
+pop temp 0
+label WHILE_EXP1
+push local 1
+push constant 32
+eq
+not
+if-goto WHILE_END1
+call Keyboard.keyPressed 0
+pop local 1
+goto WHILE_EXP1
+label WHILE_END1
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+call Game.new 0
+pop local 0
+push local 0
+call Game.run 1
+pop temp 0
+push constant 0
+pop local 2
+push constant 500
+call Sys.wait 1
+pop temp 0
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+label IF_FALSE1
+push local 1
+push constant 140
+eq
+if-goto IF_TRUE2
+goto IF_FALSE2
+label IF_TRUE2
+push constant 0
+return
+label IF_FALSE2
+goto WHILE_EXP0
+label WHILE_END0
+push constant 0
+return

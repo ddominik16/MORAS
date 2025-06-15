@@ -1,0 +1,311 @@
+function Ships.drawShip 0
+push argument 2
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 5
+add
+push argument 1
+push constant 1
+add
+push argument 0
+push constant 5
+add
+push argument 1
+push constant 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 4
+add
+push argument 1
+push constant 3
+add
+push argument 0
+push constant 6
+add
+push argument 1
+push constant 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 1
+add
+push argument 1
+push constant 4
+add
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 5
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push argument 1
+push constant 5
+add
+push argument 0
+push constant 10
+add
+push argument 1
+push constant 8
+add
+call Screen.drawRectangle 4
+pop temp 0
+push constant 0
+return
+function Ships.drawBullet 0
+push argument 0
+push constant 0
+eq
+push argument 0
+push constant 0
+gt
+or
+push argument 0
+push constant 1
+add
+push constant 511
+lt
+push argument 0
+push constant 1
+add
+push constant 511
+eq
+or
+and
+push argument 1
+push constant 0
+eq
+push argument 1
+push constant 0
+gt
+or
+and
+push argument 1
+push constant 5
+add
+push constant 255
+lt
+push argument 1
+push constant 5
+add
+push constant 255
+eq
+or
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push argument 2
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push argument 1
+push argument 0
+push constant 1
+add
+push argument 1
+push constant 5
+add
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Ships.drawAlien 0
+push argument 2
+call Screen.setColor 1
+pop temp 0
+push argument 0
+push constant 2
+add
+push argument 1
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 8
+add
+push argument 1
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 3
+add
+push argument 1
+push constant 1
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 7
+add
+push argument 1
+push constant 1
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 2
+add
+push argument 1
+push constant 2
+add
+push argument 0
+push constant 8
+add
+push argument 1
+push constant 2
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 1
+add
+push argument 1
+push constant 3
+add
+push argument 0
+push constant 2
+add
+push argument 1
+push constant 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 4
+add
+push argument 1
+push constant 3
+add
+push argument 0
+push constant 6
+add
+push argument 1
+push constant 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 8
+add
+push argument 1
+push constant 3
+add
+push argument 0
+push constant 9
+add
+push argument 1
+push constant 3
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push argument 1
+push constant 4
+add
+push argument 0
+push constant 10
+add
+push argument 1
+push constant 4
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push argument 1
+push constant 5
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 2
+add
+push argument 1
+push constant 5
+add
+push argument 0
+push constant 8
+add
+push argument 1
+push constant 5
+add
+call Screen.drawRectangle 4
+pop temp 0
+push argument 0
+push constant 10
+add
+push argument 1
+push constant 5
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push argument 1
+push constant 6
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 2
+add
+push argument 1
+push constant 6
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 8
+add
+push argument 1
+push constant 6
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 10
+add
+push argument 1
+push constant 6
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 3
+add
+push argument 1
+push constant 7
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 4
+add
+push argument 1
+push constant 7
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 6
+add
+push argument 1
+push constant 7
+add
+call Screen.drawPixel 2
+pop temp 0
+push argument 0
+push constant 7
+add
+push argument 1
+push constant 7
+add
+call Screen.drawPixel 2
+pop temp 0
+push constant 0
+return

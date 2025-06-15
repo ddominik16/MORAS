@@ -1,0 +1,50 @@
+class Ships {
+    function void drawShip(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do Screen.drawRectangle(x+5,y+1,x+5,y+3);
+        do Screen.drawRectangle(x+4,y+3,x+6,y+4);
+        do Screen.drawRectangle(x+1,y+4,x+9,y+5);
+        do Screen.drawRectangle(x,y+5,x+10,y+8);
+        return;
+    }
+
+	
+    function void drawBullet(int x, int y, boolean color){
+        if (((((x = 0) | (x > 0) ) & ((x+1 < 511) | (x+1 = 511))) & ((y = 0) | (y > 0))) & ((y+5 < 255) | (y+5 = 255))) {
+            do Screen.setColor(color);
+            do Screen.drawRectangle(x, y, x+1, y+5);
+        }
+        return;
+    }
+	
+    function void drawAlien(int x, int y, boolean color){
+        do Screen.setColor(color);
+        do Screen.drawPixel(x+2, y);
+        do Screen.drawPixel(x+8, y);
+        do Screen.drawPixel(x+3, y+1);
+        do Screen.drawPixel(x+7, y+1);
+
+        do Screen.drawRectangle(x+2, y+2, x+8, y+2);
+        
+        do Screen.drawRectangle(x+1, y+3, x+2, y+3);
+        do Screen.drawRectangle(x+4, y+3, x+6, y+3);
+        do Screen.drawRectangle(x+8, y+3, x+9, y+3);
+
+        do Screen.drawRectangle(x, y+4, x+10, y+4);
+
+        do Screen.drawPixel(x, y+5);
+        do Screen.drawRectangle(x+2, y+5, x+8, y+5);
+        do Screen.drawPixel(x+10, y+5);
+
+        do Screen.drawPixel(x, y+6);
+        do Screen.drawPixel(x+2, y+6);
+        do Screen.drawPixel(x+8, y+6);
+        do Screen.drawPixel(x+10, y+6);
+
+        do Screen.drawPixel(x+3,y+7);
+        do Screen.drawPixel(x+4,y+7);
+        do Screen.drawPixel(x+6,y+7);
+        do Screen.drawPixel(x+7,y+7);
+        return;
+    }
+}

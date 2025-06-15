@@ -1,0 +1,79 @@
+class Bullet {
+    field int x,y;
+    field boolean active; 
+	field boolean isEnemy;
+
+    constructor Bullet new(int Ax, int Ay, boolean enemy){
+        let x = Ax;
+        let y = Ay;
+        let active = false;
+		let isEnemy = enemy;
+        return this;
+    }
+
+    method void dispose() {
+        do Memory.deAlloc(this);
+        return;
+    }
+    
+    method void draw(){
+        do Ships.drawBullet(x,y,false);
+        return;
+    }
+
+    method void update() {
+        do Ships.drawBullet(x, y, true); 
+        
+        if (isEnemy) {
+            let y = y + 2; 
+        } else {
+            let y = y - 2; 
+        }
+
+        // if off screen brisi ga u suprotnom novi crtaj
+        if ((y < 0) | (y > 255)) {
+            do reset();
+        } else {
+            do Ships.drawBullet(x, y, false); // 
+        }
+        return;
+    }
+
+    method void reset(){
+        do Ships.drawBullet(x,y,true);
+        do setBulletStatus(false);
+
+        if(~isEnemy){
+            let y = 225;
+        }
+        
+        return;
+    }
+	
+	
+    method boolean getStatus(){ return active; }
+
+    method void setStatus(){
+        let active = ~active;
+        return;
+    }
+
+    method void setBulletStatus(boolean newStatus){
+        let active = newStatus;
+        return;
+    }
+
+    method void setX(int newX){
+        let x = newX;
+        return;
+    }
+
+    method void setY(int newY){
+        let y = newY;
+        return;
+    }
+
+    method int getX(){ return x; }
+
+    method int getY(){ return y; }
+}

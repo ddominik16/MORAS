@@ -1,0 +1,40 @@
+class Main {
+	function void main(){
+		var Game g;		
+		var int ch;
+		var boolean debounce;
+		
+		
+		 while(true){ 
+            // titlescreen
+            if (~debounce){
+                do Screen.drawRectangle(0,0,511,255); // sve crno     
+                do TitleView.setView(185, 50);
+                let debounce = true;
+                do Sys.wait(300);
+            }           
+            let ch = Keyboard.keyPressed();
+
+            // space za uci
+            if (ch = 32){ 
+                do Screen.clearScreen();
+                while (ch = 32){
+                    let ch = Keyboard.keyPressed();
+                }
+                
+				do Screen.setColor(true);
+				let g = Game.new();
+				do g.run();
+
+                let debounce = false;
+                do Sys.wait(500);
+                do Screen.setColor(true);
+            }
+
+            if (ch = 140){
+                return;
+            }
+        }
+		return;
+	}
+}
