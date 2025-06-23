@@ -595,8 +595,8 @@ class Game {
             return;
         }
 
-        // probaj naci aliena da puca, do numAliens puta
-        while (attempts < numAliens) {
+        // probaj naci aliena da puca, do numAliens puta (totalAlienSlots)
+        while (attempts < totalAlienSlots) {
             let currentEnemyIndex = currentEnemyIndex + 1;
             if ((currentEnemyIndex = totalAlienSlots) | (currentEnemyIndex > totalAlienSlots)) {
                 let currentEnemyIndex = 0;
